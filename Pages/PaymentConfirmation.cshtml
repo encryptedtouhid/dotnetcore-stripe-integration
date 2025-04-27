@@ -1,0 +1,35 @@
+@page
+@model StripeIntegration.Pages.PaymentConfirmationModel
+@{
+    ViewData["Title"] = "Payment Confirmation";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3 text-center">
+            <h2 class="mb-4">Payment Status</h2>
+            @if (Model.PaymentStatus == "succeeded")
+            {
+                <div class="alert alert-success">
+                    <h4>Payment Successful!</h4>
+                    <p>Thank you for your payment.</p>
+                </div>
+            }
+            else if (Model.PaymentStatus == "processing")
+            {
+                <div class="alert alert-info">
+                    <h4>Payment Processing</h4>
+                    <p>Your payment is being processed. Please wait...</p>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-danger">
+                    <h4>Payment Failed</h4>
+                    <p>There was an issue with your payment. Please try again.</p>
+                </div>
+            }
+            <a href="/" class="btn btn-primary">Return to Home</a>
+        </div>
+    </div>
+</div>

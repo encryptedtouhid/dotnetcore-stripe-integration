@@ -1,0 +1,85 @@
+@page
+@model StripeIntegration.Pages.CheckoutModel
+@{
+    ViewData["Title"] = "Checkout";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h2 class="mb-4">Checkout</h2>
+            <form method="post" id="payment-form">
+                <div class="mb-3">
+                    <label asp-for="Order.CustomerName" class="form-label">Name</label>
+                    <input asp-for="Order.CustomerName" class="form-control" required />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Order.CustomerEmail" class="form-label">Email</label>
+                    <input asp-for="Order.CustomerEmail" type="email" class="form-control" required />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Order.Amount" class="form-label">Amount (USD)</label>
+                    <input asp-for="Order.Amount" type="number" step="0.01" class="form-control" required />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Order.Description" class="form-label">Description</label>
+                    <input asp-for="Order.Description" class="form-control" required />
+                </div>
+
+                @if (!string.IsNullOrEmpty(Model.ClientSecret))
+                {
+                    <div class="mb-3">
+                        <div id="payment-element"></div>
+                    </div>
+                    <button id="submit-button" class="btn btn-primary">Pay Now</button>
+                    <div id="payment-message" class="hidden"></div>
+                }
+                else
+                {
+                    <button type="submit" class="btn btn-primary">Continue to Payment</button>
+                }
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @if (!string.IsNullOrEmpty(Model.ClientSecret))
+    {
+        <script src="https://js.stripe.com/v3/"></script>
+        <script>
+            const stripe = Stripe('@Model.PublishableKey');
+            const options = {
+                clientSecret: '@Model.ClientSecret',
+                appearance: {
+                    theme: 'stripe'
+                }
+            };
+
+            const elements = stripe.elements(options);
+            const paymentElement = elements.create('payment');
+            paymentElement.mount('#payment-element');
+
+            const form = document.getElementById('payment-form');
+            const submitButton = document.getElementById('submit-button');
+            const paymentMessage = document.getElementById('payment-message');
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                submitButton.disabled = true;
+
+                const {error} = await stripe.confirmPayment({
+                    elements,
+                    confirmParams: {
+                        return_url: window.location.origin + '/PaymentConfirmation'
+                    }
+                });
+
+                if (error) {
+                    paymentMessage.textContent = error.message;
+                    submitButton.disabled = false;
+                }
+            });
+        </script>
+    }
+}
