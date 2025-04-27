@@ -12,7 +12,7 @@ This is a sample ASP.NET Core 8.0 web application demonstrating Stripe payment i
 
 1. Clone this repository:
 ```bash
-git clone https://github.com/yourusername/dotnetcore-stripe_integration.git
+git clone https://github.com/encryptedtouhid/dotnetcore-stripe_integration.git
 cd dotnetcore-stripe_integration
 ```
 
