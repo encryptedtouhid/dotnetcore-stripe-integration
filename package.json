@@ -1,0 +1,12 @@
+{
+  "name": "dotnetcore-stripe_integration",
+  "version": "1.0.0",
+  "description": "This is a sample ASP.NET Core 8.0 web application demonstrating Stripe payment integration.",
+  "scripts": {
+    "css:build": "npx tailwindcss -i ./wwwroot/css/tailwind.css -o ./wwwroot/css/site.css --minify",
+    "css:watch": "npx tailwindcss -i ./wwwroot/css/tailwind.css -o ./wwwroot/css/site.css --watch"
+  },
+  "dependencies": {
+    "tailwindcss": "^3.4.1"
+  }
+}

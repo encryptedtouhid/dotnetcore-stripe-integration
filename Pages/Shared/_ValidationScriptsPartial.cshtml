@@ -1,2 +1,17 @@
 ﻿<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+    // Add custom styling for validation messages
+    $.validator.setDefaults({
+        highlight: function(element) {
+            $(element).addClass('border-red-500 focus:border-red-500 focus:ring-red-500');
+        },
+        unhighlight: function(element) {
+            $(element).removeClass('border-red-500 focus:border-red-500 focus:ring-red-500');
+            $(element).addClass('border-gray-300 focus:border-indigo-500 focus:ring-indigo-500');
+        },
+        errorElement: 'span',
+        errorClass: 'text-sm text-red-600 mt-1'
+    });
+</script>

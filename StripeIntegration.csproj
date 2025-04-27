@@ -10,4 +10,12 @@
     <PackageReference Include="Stripe.net" Version="48.0.2" />
   </ItemGroup>
 
+  <Target Name="NpmInstall" BeforeTargets="Build">
+    <Exec Command="npm install" />
+  </Target>
+
+  <Target Name="NpmBuildTailwind" AfterTargets="NpmInstall">
+    <Exec Command="node_modules/.bin/tailwindcss -i ./wwwroot/css/tailwind.css -o ./wwwroot/css/site.css --minify" />
+  </Target>
+
 </Project>
